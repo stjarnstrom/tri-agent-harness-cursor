@@ -281,7 +281,7 @@ the blocking issues and return for re-evaluation. Key issues to resolve:
 
 ## Lesson candidates
 
-[REQUIRED, machine-read by the Retrospector. One item per distinct failure
+[REQUIRED for the anti-slop / lessons pipeline. One item per distinct failure
 root cause found this round; leave the list empty on a clean PASS. Keep each
 rule generalized — a future project should benefit, not just this one.]
 

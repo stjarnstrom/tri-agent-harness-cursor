@@ -54,7 +54,7 @@ Autonomous runs write `docs/workflow-handoff.json` at phase boundaries via
 - `.gc-cache/weekly-report.jsonl`: QA failure log for anti-slop loop (gitignored).
 
 ### Shared context
-- `CLAUDE.md`: project-level context, stack defaults, design defaults, and links.
+- `AGENTS.md`: project-level context, stack defaults, design defaults, and links.
 - `agents/*.md`: planner/generator/evaluator role instructions.
 - `agents/criteria/*.md`: QA scoring and quality rubrics.
 - `app/README.md`: product root — Generator scaffolds here.
@@ -62,14 +62,14 @@ Autonomous runs write `docs/workflow-handoff.json` at phase boundaries via
 ## Ownership And Read/Write Rules
 
 ### Planner phase
-- Reads: `CLAUDE.md`, `harness/AGENT-INSTRUCTIONS.md`, `agents/planner.md`,
+- Reads: `AGENTS.md`, `harness/AGENT-INSTRUCTIONS.md`, `agents/planner.md`,
   `agents/criteria/*.md`, `harness/workspace-template.md`, `design/*` (if present),
   `docs/design-options.md` (finalize mode), `docs/templates/design-options.md` (scout mode)
 - Writes (full/finalize mode):
   - `docs/spec.md`
   - `docs/sprint-plan.md`
   - `docs/sprint-status.md` (initialize all sprints as `Not started`)
-  - `CLAUDE.md` (project-specific updates)
+  - `AGENTS.md` (project-specific updates)
 - Writes (design-scout mode — no user brief):
   - `docs/design-options.md` only — harness halts for user selection
 
@@ -88,7 +88,7 @@ Autonomous runs write `docs/workflow-handoff.json` at phase boundaries via
   - `docs/spec.md`
   - `docs/sprint-plan.md`
   - `docs/sprint-status.md`
-  - `CLAUDE.md`
+  - `AGENTS.md`
   - `harness/AGENT-INSTRUCTIONS.md`
   - `agents/generator.md`
   - `agents/criteria/*.md`

@@ -336,15 +336,6 @@ test("harness_preflight passes when required tools exist", async () => {
   assert.equal(code, 0);
 });
 
-async function makeClaudeStub(dir, exitCode) {
-  const bin = path.join(dir, "stub-bin");
-  await mkdir(bin, { recursive: true });
-  const stub = path.join(bin, "claude");
-  await writeFile(stub, `#!/bin/sh\necho "$@" >> "${dir}/claude-calls.log"\nexit ${exitCode}\n`);
-  await chmod(stub, 0o755);
-  return `${bin}:${process.env.PATH}`;
-}
-
 test("model ping is not used by the Cursor harness", async () => {
   const dir = await mkdtemp(path.join(tmpdir(), "preflight-ping-"));
   const { code, stderr } = await runWithPreamble(

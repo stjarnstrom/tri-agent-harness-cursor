@@ -16,7 +16,7 @@ if [ -z "$USER_PROMPT" ]; then
   exit 1
 fi
 
-for required in "$PROMPT_FILE" "agents/planner.md" "CLAUDE.md"; do
+for required in "$PROMPT_FILE" "agents/planner.md" "AGENTS.md"; do
   if [ ! -f "$required" ]; then
     echo "Missing required file: $required"
     exit 1
@@ -36,7 +36,7 @@ Prompt: $USER_PROMPT
 - $PROMPT_FILE
 - agents/planner.md
 - agents/criteria/*.md
-- CLAUDE.md
+- AGENTS.md
 - design/ (if present — brief, constraints, references)
 - $RUNTIME_CONTRACT
 
@@ -44,7 +44,7 @@ Prompt: $USER_PROMPT
 - docs/spec.md
 - docs/sprint-plan.md
 - docs/sprint-status.md
-- CLAUDE.md (project context updates)
+- AGENTS.md (project context updates)
 EOF
 
 echo "Prepared Planner handoff: $HANDOFF_FILE"

@@ -4,7 +4,7 @@ Read these in order before making changes:
 
 1. `harness/AGENT-INSTRUCTIONS.md` — Sandbox, lints, anti-slop (required)
 2. `docs/runtime-contract.md` — Phase boundaries and file ownership
-3. `CLAUDE.md` — Project-specific context
+3. `AGENTS.md` — Project-specific context
 
 ## Guardrails
 

@@ -4,8 +4,6 @@ Orchestration and guardrails in one harness: **Planner → Generator → Pre-QA 
 
 This repo is a **Cursor-only harness scaffold**, not a finished application. You provide a product prompt; the harness creates `docs/` planning artifacts and application code under `app/` sprint by sprint.
 
-> **This repo does not include the Retrospector / end-of-run learning loop.** For that (and Claude Code interactive slash commands), use the fuller-featured [tri-agent-harness](https://github.com/stjarnstrom/tri-agent-harness). For OpenCode, see [tri-agent-harness-opencode](https://github.com/stjarnstrom/tri-agent-harness-opencode).
-
 ## Architecture
 
 ```
@@ -120,14 +118,6 @@ HARNESS_PHASE_TIMEOUT=7200
 | Agent personas | [`agents/`](agents/) |
 | Product root convention | [`app/README.md`](app/README.md) |
 | Extend lints and guardrails | [`CONTRIBUTING.md`](CONTRIBUTING.md) |
-
-## Other harness variants
-
-| Repo | Runner | Notes |
-|------|--------|-------|
-| [tri-agent-harness](https://github.com/stjarnstrom/tri-agent-harness) | Claude Code (`./harness.sh`) | Full-featured: Retrospector, learning loop, slash commands |
-| **this repo** | Cursor (`./cursor-harness.sh`) | Cursor-only, no Retrospector |
-| [tri-agent-harness-opencode](https://github.com/stjarnstrom/tri-agent-harness-opencode) | OpenCode (`./opencode-harness.sh`) | OpenCode-only |
 
 ## Key files
 

@@ -12,7 +12,7 @@ Before writing code:
 4. Read `docs/sprint-plan.md`
 5. Read `docs/sprint-status.md`
 6. Read all files in `agents/criteria/`
-7. Read `CLAUDE.md`
+7. Read `AGENTS.md`
 
 Determine target sprint as the first sprint in `docs/sprint-status.md` with one of:
 

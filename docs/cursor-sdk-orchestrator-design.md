@@ -4,18 +4,18 @@
 
 ## Why this exists
 
-The current `harness.sh` flow works, but it depends on CLI command behavior that may change and increase cost. This design adds an optional orchestration path that:
+The current `./cursor-harness.sh` flow works, but it depends on CLI command behavior that may change and increase cost. This design adds an optional orchestration path that:
 
 - preserves the existing three-phase harness model (Planner -> Generator -> Evaluator)
 - keeps `docs/` artifacts and sprint state as the source of truth
-- removes dependency on long bash loops and direct `claude -p` orchestration
+- removes dependency on long bash loops and direct `cursor agent` CLI orchestration
 - supports long-running and resumable execution through the Cursor SDK
 
 This is an additive option, not a replacement: existing shell and Cursor handoff flows remain valid.
 
 ## Goals
 
-- Reproduce current autonomous behavior without `harness.sh`.
+- Reproduce current autonomous behavior without the bash CLI loop.
 - Maintain compatibility with `docs/runtime-contract.md`.
 - Support pause/resume across machine restarts or session breaks.
 - Add explicit cost controls (model routing, phase budgets, stop policies).
@@ -179,7 +179,7 @@ Read/continue rules:
 
 The following transitions are explicitly supported:
 
-- `harness.sh` -> SDK `resume`
+- `cursor-harness.sh` -> SDK `resume`
 - SDK `run-loop` -> Cursor manual (`runners/cursor/*.sh`)
 - Cursor manual -> SDK `resume`
 - SDK local -> SDK cloud (and reverse), if repo/artifacts are in sync
@@ -241,7 +241,7 @@ Equivalent operational behavior to current harness, but with resumable SDK agent
 ### Phase 1 (safe bootstrap)
 
 - Add orchestrator implementation under `sdk-orchestrator/`.
-- Keep `harness.sh` untouched.
+- Keep `cursor-harness.sh` as the canonical CLI entry until SDK loop is default.
 - Validate one sample project reaches equivalent artifacts using both paths.
 
 ### Phase 2 (parity + observability)

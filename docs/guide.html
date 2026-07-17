@@ -301,9 +301,8 @@
     <p class="thesis">
       The harness turns a short product prompt into a working app by
       <strong>separating creation from judgment</strong>: one agent plans, one
-      builds, one grades the running app with a skeptical eye — and a fourth
-      distills every failure into lessons, so <strong>each run starts smarter
-      than the last</strong>.
+      builds, and one grades the running app with a skeptical eye — with
+      mechanical gates and an anti-slop loop so quality stays enforceable.
     </p>
     <p class="doc-meta">
       <span>docs/guide.html</span>
@@ -316,7 +315,7 @@
   <section id="loop">
     <div class="wrap">
       <span class="eyebrow">The machine</span>
-      <h2>Four agents, one circuit</h2>
+      <h2>Three agents, one circuit</h2>
       <p class="lead-in">
         Every sprint travels the same circuit. The Generator never has final
         say on its own work: a mechanical gate checks lints and artifacts, then
@@ -326,7 +325,7 @@
     </div>
     <div class="wrap-wide">
       <div class="plate">
-        <svg viewBox="0 0 960 250" role="img" aria-label="Diagram: Planner feeds Generator, then Pre-QA Gate, then Evaluator. A fail wire returns to the Generator. After the run, the Retrospector writes lessons that feed the next run.">
+        <svg viewBox="0 0 800 220" role="img" aria-label="Diagram: Planner feeds Generator, then Pre-QA Gate, then Evaluator. A fail wire returns to the Generator.">
           <defs>
             <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
               <path d="M0,0 L8,4 L0,8 z" fill="#10202e"/>
@@ -334,63 +333,36 @@
             <marker id="arr-j" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
               <path d="M0,0 L8,4 L0,8 z" fill="#2062ae"/>
             </marker>
-            <marker id="arr-l" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
-              <path d="M0,0 L8,4 L0,8 z" fill="#d14d21"/>
-            </marker>
           </defs>
 
-          <!-- nodes -->
           <g font-family="ui-monospace, Menlo, monospace" font-size="13">
             <rect x="20" y="55" width="140" height="46" rx="8" fill="#f1f3f5" stroke="#10202e" stroke-width="1.5"/>
             <text x="90" y="83" text-anchor="middle" fill="#10202e">Planner</text>
 
-            <rect x="285" y="55" width="140" height="46" rx="8" fill="#f1f3f5" stroke="#10202e" stroke-width="1.5"/>
-            <text x="355" y="83" text-anchor="middle" fill="#10202e">Generator</text>
+            <rect x="240" y="55" width="140" height="46" rx="8" fill="#f1f3f5" stroke="#10202e" stroke-width="1.5"/>
+            <text x="310" y="83" text-anchor="middle" fill="#10202e">Generator</text>
 
-            <rect x="440" y="55" width="130" height="46" rx="23" fill="#d8dfe5" stroke="#52616e" stroke-width="1.2"/>
-            <text x="505" y="83" text-anchor="middle" fill="#10202e">Pre-QA gate</text>
+            <rect x="430" y="55" width="130" height="46" rx="23" fill="#d8dfe5" stroke="#52616e" stroke-width="1.2"/>
+            <text x="495" y="83" text-anchor="middle" fill="#10202e">Pre-QA gate</text>
 
             <rect x="610" y="55" width="140" height="46" rx="8" fill="#2062ae" stroke="#2062ae"/>
             <text x="680" y="83" text-anchor="middle" fill="#f1f3f5">Evaluator</text>
-
-            <rect x="800" y="55" width="140" height="46" rx="8" fill="#f1f3f5" stroke="#d14d21" stroke-width="1.5"/>
-            <text x="870" y="83" text-anchor="middle" fill="#d14d21">Retrospector</text>
           </g>
 
-          <!-- forward wires -->
-          <line x1="160" y1="78" x2="278" y2="78" stroke="#10202e" stroke-width="1.5" marker-end="url(#arr)"/>
-          <line x1="425" y1="78" x2="433" y2="78" stroke="#10202e" stroke-width="1.5" marker-end="url(#arr)"/>
-          <line x1="570" y1="78" x2="603" y2="78" stroke="#10202e" stroke-width="1.5" marker-end="url(#arr)"/>
-          <line x1="750" y1="78" x2="793" y2="78" stroke="#10202e" stroke-width="1.5" stroke-dasharray="2 4" marker-end="url(#arr)"/>
+          <line x1="160" y1="78" x2="233" y2="78" stroke="#10202e" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="380" y1="78" x2="423" y2="78" stroke="#10202e" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="560" y1="78" x2="603" y2="78" stroke="#10202e" stroke-width="1.5" marker-end="url(#arr)"/>
 
-          <!-- fail wire: evaluator back to generator -->
-          <path d="M 680 101 C 680 165, 420 165, 358 106" fill="none" stroke="#2062ae" stroke-width="1.5" marker-end="url(#arr-j)"/>
-          <text x="520" y="172" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#2062ae">FAIL — fix and retest (max 3 rounds/sprint)</text>
+          <path d="M 680 101 C 680 165, 380 165, 310 106" fill="none" stroke="#2062ae" stroke-width="1.5" marker-end="url(#arr-j)"/>
+          <text x="495" y="172" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#2062ae">FAIL — fix and retest (max 3 rounds/sprint)</text>
 
-          <!-- pass wire: next sprint -->
-          <path d="M 715 55 C 715 18, 420 18, 360 50" fill="none" stroke="#52616e" stroke-width="1.2" stroke-dasharray="3 4" marker-end="url(#arr)"/>
-          <text x="537" y="14" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#52616e">PASS — next sprint</text>
-
-          <!-- learn wire: retrospector back to the start -->
-          <path d="M 870 101 C 870 225, 120 225, 92 106" fill="none" stroke="#d14d21" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arr-l)"/>
-          <text x="480" y="232" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#d14d21">harness/LESSONS.md — required reading for every agent, every run</text>
-
-          <!-- signature: signal lights travelling the circuit, then the fail wire home -->
-          <g aria-hidden="true">
-            <circle class="signal" cx="200" cy="78" r="3.5" fill="#2062ae" style="animation-delay: 0s"/>
-            <circle class="signal" cx="240" cy="78" r="3.5" fill="#2062ae" style="animation-delay: 0.6s"/>
-            <circle class="signal" cx="600" cy="78" r="3.5" fill="#2062ae" style="animation-delay: 1.2s"/>
-            <circle class="signal" cx="672" cy="122" r="3.5" fill="#2062ae" style="animation-delay: 1.8s"/>
-            <circle class="signal" cx="590" cy="153" r="3.5" fill="#2062ae" style="animation-delay: 2.4s"/>
-            <circle class="signal" cx="470" cy="157" r="3.5" fill="#2062ae" style="animation-delay: 3.0s"/>
-            <circle class="signal" cx="385" cy="128" r="3.5" fill="#2062ae" style="animation-delay: 3.6s"/>
-          </g>
+          <path d="M 715 55 C 715 18, 380 18, 310 50" fill="none" stroke="#52616e" stroke-width="1.2" stroke-dasharray="3 4" marker-end="url(#arr)"/>
+          <text x="512" y="14" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#52616e">PASS — next sprint</text>
         </svg>
-        <p class="plate-caption">Fig. 1 — the build circuit and the learning return wire</p>
+        <p class="plate-caption">Fig. 1 — the build circuit</p>
         <div class="legend">
           <span><i class="swatch build"></i> build</span>
           <span><i class="swatch judge"></i> judge</span>
-          <span><i class="swatch learn"></i> learn</span>
         </div>
       </div>
     </div>
@@ -404,39 +376,32 @@
       <p class="lead-in">
         Each agent runs in its own isolated context and communicates only
         through files in <code>docs/</code> — the Evaluator never sees the
-        Generator's self-justification, only what landed on disk. Models are
-        matched to the job: big-picture reasoning on Fable, implementation
-        volume on Sonnet.
+        Generator's self-justification, only what landed on disk. Override the
+        Cursor model with <code>HARNESS_MODEL</code> (default
+        <code>composer-2.5</code>).
       </p>
     </div>
     <div class="wrap-wide">
       <div class="cards">
         <div class="card">
           <h3>Planner</h3>
-          <span class="tech">claude-fable-5</span>
+          <span class="tech">Cursor agent</span>
           <p>Expands your one-line prompt into a full spec, sprint plan, and
           status tracker. With no design brief, it first proposes three design
           directions and waits for your pick.</p>
         </div>
         <div class="card">
           <h3>Generator</h3>
-          <span class="tech">claude-sonnet-5</span>
+          <span class="tech">Cursor agent</span>
           <p>Builds one sprint at a time against a written contract. Every
           commit must pass the pre-commit hook: sandbox, lints, secret scan.</p>
         </div>
         <div class="card">
           <h3>Evaluator</h3>
-          <span class="tech">claude-fable-5</span>
+          <span class="tech">Cursor agent</span>
           <p>Starts the app and tests every acceptance criterion with
           Playwright, then grades six weighted criteria. Skeptical by
           instruction: “it mostly works” is a fail.</p>
-        </div>
-        <div class="card learn-card">
-          <h3>Retrospector</h3>
-          <span class="tech">claude-fable-5</span>
-          <p>Runs once at the end of every run. Distills QA failures into
-          generalized lessons and drafts guardrail proposals when a pattern
-          strikes twice.</p>
         </div>
       </div>
     </div>
@@ -468,10 +433,6 @@
 <span class="k">bun install</span> &amp;&amp; <span class="k">bun run setup</span>
 <span class="k">cp</span> .env.example .env.local</pre>
             </div>
-            <p>
-              For the Retrospector and cross-run learning loop, use the
-              <a href="https://github.com/stjarnstrom/tri-agent-harness">Claude Code harness</a>.
-            </p>
           </div>
         </div>
 
@@ -557,9 +518,8 @@
 
       <p>
         When something fails on setup rather than product bugs, jump to
-        <a href="#fieldnotes">Field notes</a>. Autonomy uses
-        <code>--dangerously-skip-permissions</code> — hooks catch bad commits,
-        not bad commands.
+        <a href="#fieldnotes">Field notes</a>. Pre-commit hooks catch bad
+        commits; review agent output when something looks off.
       </p>
     </div>
   </section>
@@ -580,7 +540,7 @@
           <span class="tplus">5–15 min</span>
           <h3>Planning</h3>
           <p>The Planner writes the spec, sprint plan, and status tracker, and
-          fills CLAUDE.md with the design language.</p>
+          fills AGENTS.md with the design language.</p>
           <span class="wire">docs/spec.md · docs/sprint-plan.md · docs/sprint-status.md</span>
         </div>
         <div class="event">
@@ -606,13 +566,6 @@
           work back with an actionable bug list; pass advances to the next
           sprint.</p>
           <span class="wire">docs/qa-report-sprint-N.md · sprint status updated</span>
-        </div>
-        <div class="event learn-dot">
-          <span class="tplus">not included</span>
-          <h3>Retrospective</h3>
-          <p>This Cursor repo does not run the Retrospector. For end-of-run
-          learning (lessons ledger, guardrail proposals), use the
-          <a href="https://github.com/stjarnstrom/tri-agent-harness">Claude Code harness</a>.</p>
         </div>
       </div>
       <p>
@@ -672,8 +625,8 @@
             <tr><td><code>docs/sprint-N-contract.md</code></td><td class="who">Generator</td><td>Sprint scope, acceptance criteria, self-eval</td></tr>
             <tr><td><code>docs/mechanical-checks-sprint-N.md</code></td><td class="who">Pre-QA gate</td><td>Lint/artifact results; FAIL blocks evaluation</td></tr>
             <tr><td><code>docs/qa-report-sprint-N.md</code></td><td class="who">Evaluator</td><td>Verdict, scores, bugs — ends with lesson candidates</td></tr>
-            <tr><td><code>harness/LESSONS.md</code></td><td class="who learn-w">Retrospector</td><td>Distilled cross-run lessons (max 25, phase-grouped)</td></tr>
-            <tr><td><code>docs/proposals/guardrail-*.md</code></td><td class="who learn-w">Retrospector</td><td>Draft guardrails awaiting your review</td></tr>
+            <tr><td><code>AGENTS.md</code></td><td class="who">Planner</td><td>Project context: stack, design language, status</td></tr>
+            <tr><td><code>harness/LESSONS.md</code></td><td class="who">anti-slop</td><td>Distilled lessons from QA candidates (<code>bun gc:weekly</code>)</td></tr>
           </tbody>
         </table>
       </div>
@@ -688,12 +641,11 @@
   <section id="learning">
     <div class="wrap learn-band">
       <span class="eyebrow learn-eb">The return wire</span>
-      <h2>How the harness learns</h2>
+      <h2>Anti-slop: how quality compounds</h2>
       <p class="lead-in">
-        This Cursor repo logs QA failures for the anti-slop loop
-        (<code>bun gc:weekly</code>) but does not run the Retrospector.
-        For the full learning loop, use
-        <a href="https://github.com/stjarnstrom/tri-agent-harness">tri-agent-harness</a>.
+        QA reports end with lesson candidates. Review recurring failures with
+        the anti-slop loop (<code>bun gc:weekly</code>) and graduate repeated
+        mistakes into lint rules or persona checklists.
       </p>
     </div>
     <div class="wrap-wide">
@@ -736,7 +688,7 @@
     </div>
     <div class="wrap">
       <div class="console">
-<pre><span class="c"># anti-slop toolbox (no Retrospector in this repo)</span>
+<pre><span class="c"># anti-slop toolbox</span>
 <span class="k">bun gc:weekly</span>     <span class="c"># review recurring failures → guardrail proposals</span></pre>
       </div>
       <p>

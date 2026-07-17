@@ -8,7 +8,7 @@ Planner will propose three directions in `docs/design-options.md` for you to pic
 ```bash
 cp docs/templates/design-brief.md design/brief.md
 # Edit brief.md; add mood images to design/references/
-./harness.sh "Your product prompt"
+./cursor-harness.sh "Your product prompt"
 ```
 
 ## Files

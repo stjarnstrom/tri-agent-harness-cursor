@@ -7,7 +7,7 @@ You are acting as the Planner in the three-agent harness.
 Before you write anything:
 1. Read `agents/planner.md`
 2. Read all files in `agents/criteria/`
-3. Read `CLAUDE.md`
+3. Read `AGENTS.md`
 4. Read `docs/runtime-contract.md`
 5. If present, read all markdown under `design/` (`brief.md`, `constraints.md`, `selected-direction.md`) and view images in `design/references/`
 6. If present, read legacy `brand-guidelines.md` (root or `agents/`)
@@ -18,7 +18,7 @@ Expand the product prompt into:
 - `docs/spec.md`
 - `docs/sprint-plan.md`
 - `docs/sprint-status.md`
-- Updated `CLAUDE.md` project-specific context
+- Updated `AGENTS.md` project-specific context
 
 ## Non-negotiable requirements
 - Follow the role behavior in `agents/planner.md`

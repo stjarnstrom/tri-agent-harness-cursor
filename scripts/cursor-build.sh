@@ -57,7 +57,7 @@ Additional context: ${EXTRA_CONTEXT:-"(none)"}
 - docs/spec.md
 - docs/sprint-plan.md
 - $STATUS_FILE
-- CLAUDE.md
+- AGENTS.md
 - $RUNTIME_CONTRACT
 
 ## Expected Outputs

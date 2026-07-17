@@ -35,8 +35,6 @@ This project uses a **Cursor-only harness** with two layers:
 
 Agents communicate through files in `docs/`. Personas in `agents/`. Criteria in `agents/criteria/`.
 
-**Not included in this repo:** Retrospector / end-of-run learning loop. For that, use the [Claude Code harness](https://github.com/stjarnstrom/tri-agent-harness).
-
 ### Model policy (Cursor)
 
 Autonomous runs use the Cursor CLI (`cursor agent`). Default model: `composer-2.5`.
@@ -183,11 +181,6 @@ HARNESS_MODEL=composer-2.5 ./cursor-harness.sh "..."     # override Cursor model
 ./scripts/cursor-qa.sh
 ./scripts/cursor-post-qa.sh --sprint N --qa-round M
 ```
-
-**Other harness variants:**
-
-- [tri-agent-harness](https://github.com/stjarnstrom/tri-agent-harness) — Claude Code, includes Retrospector/learning loop
-- [tri-agent-harness-opencode](https://github.com/stjarnstrom/tri-agent-harness-opencode) — OpenCode CLI
 
 **Guardrails:**
 

@@ -91,13 +91,14 @@ export function renderLessonsMd(entries) {
   const lines = [
     "# Harness Lessons",
     "",
-    "> Machine-maintained. Distilled from QA failures across runs by the",
-    "> Retrospector. Source of truth: `harness/lessons.jsonl` — regenerate this",
-    "> file with `node scripts/render-lessons.mjs`. Do not edit by hand.",
+    "> Machine-maintained. Distilled from QA lesson candidates and anti-slop",
+    "> review (`bun gc:weekly`). Source of truth: `harness/lessons.jsonl` —",
+    "> regenerate this file with `node scripts/render-lessons.mjs`. Do not edit",
+    "> by hand.",
     "",
   ];
   if (active.length === 0) {
-    lines.push("_No lessons yet. Run the harness; the Retrospector fills this in._");
+    lines.push("_No lessons yet. Run the harness and weekly anti-slop review to fill this in._");
     return lines.join("\n") + "\n";
   }
   for (const phase of PHASES) {

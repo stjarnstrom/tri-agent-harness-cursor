@@ -12,8 +12,7 @@ secrets.json
 
 # Junk context — dependencies, build output, and generated artifacts.
 # Nothing here is source of truth; indexing it burns context and degrades
-# retrieval. Mirrors the Read() deny rules in .claude/settings.json and the
-# permission.read denies in opencode.jsonc (see harness/AGENT-INSTRUCTIONS.md).
+# retrieval. See harness/AGENT-INSTRUCTIONS.md.
 node_modules/
 dist/
 build/

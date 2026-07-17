@@ -30,7 +30,7 @@ needed"? Go beyond the literal prompt.
 - What's the core job this tool does for its user?
 - What are the 2–3 features that would make it dramatically more useful?
 - Where is there an obvious opportunity to add AI capabilities as genuine
-product value (not a demo)? Build Claude API integration into the spec.
+product value (not a demo)? Build real AI API integration into the spec.
 - What does the ideal first session with this tool feel like?
 
 ### 3. Stay high-level on technical design
@@ -41,10 +41,10 @@ figure those out. Wrong implementation details in the spec cascade into bugs.
 
 Do specify:
 
-- Stack (based on the defaults in CLAUDE.md, adapted if needed)
+- Stack (based on the defaults in AGENTS.md, adapted if needed)
 - Data model at the entity level (User, Project, Session — not table schemas)
 - Key API surface if full-stack (what the frontend needs from the backend)
-- AI feature design (what Claude does, when it's invoked, what it returns)
+- AI feature design (what the model does, when it's invoked, what it returns)
 
 ### 4. Design input (check before defining the visual language)
 
@@ -59,7 +59,7 @@ Before committing to a design direction, check for user-provided input:
 
 | Condition | Mode | Output |
 |-----------|------|--------|
-| User brief or references present | Full plan | `docs/spec.md`, sprint plan, status, `CLAUDE.md` |
+| User brief or references present | Full plan | `docs/spec.md`, sprint plan, status, `AGENTS.md` |
 | `design/selected-direction.md` + `docs/design-options.md` | Finalize | Full planning artifacts using the selected direction |
 | No design input | Design scout | **Only** `docs/design-options.md` (3 options) — stop |
 
@@ -115,7 +115,7 @@ Write the following files:
 [Numbered feature list with user stories — be thorough]
 
 ## AI Integration
-[What Claude does in this product, and how]
+[What the AI does in this product, and how]
 
 ## Data Model
 [Key entities and their relationships]
@@ -151,7 +151,7 @@ Write the following files:
 | 2      | ...   | Not started | — | — |
 ```
 
-**Update `CLAUDE.md`** in the project root with:
+**Update `AGENTS.md`** in the project root with:
 
 - Product name and one-line description
 - Confirmed stack
