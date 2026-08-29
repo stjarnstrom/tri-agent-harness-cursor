@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tri-agent harness (Cursor) — field guide</title>
+<title>Tri-agent harness — field guide</title>
 <style>
   @font-face {
     font-family: "DM Sans";
@@ -28,7 +28,10 @@
     --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+    overflow-x: clip;
+  }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
   }
@@ -38,13 +41,21 @@
     font-family: var(--body);
     font-size: 1rem;
     line-height: 1.65;
+    overflow-x: clip;
+    max-width: 100%;
   }
   a { color: var(--judge); text-decoration: none; }
   a:hover, a:focus-visible { text-decoration: underline; }
   :focus-visible { outline: 2px solid var(--learn); outline-offset: 2px; }
 
-  .wrap { max-width: 740px; margin: 0 auto; padding: 0 1.5rem; }
-  .wrap-wide { max-width: 1020px; margin: 0 auto; padding: 0 1.5rem; }
+  .wrap, .wrap-wide {
+    width: 100%;
+    min-width: 0;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+  .wrap { max-width: 740px; }
+  .wrap-wide { max-width: 1020px; }
 
   /* ---------- header ---------- */
   header { border-bottom: 1px solid var(--panel-deep); padding: 1rem 0; }
@@ -85,31 +96,34 @@
   .doc-meta {
     margin-top: 1.75rem; font-family: var(--mono); font-size: 0.72rem;
     letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+    display: flex; flex-wrap: wrap; gap: 0.35rem 0;
   }
   .doc-meta span { white-space: nowrap; }
   .doc-meta span + span::before { content: "·"; margin: 0 0.6em; }
 
   /* ---------- sections ---------- */
-  section { padding: 3.5rem 0 0.5rem; }
+  section { padding: 3.5rem 0 0.5rem; overflow-x: clip; }
   section h2 {
     font-family: var(--display); font-weight: 700;
     font-size: clamp(1.5rem, 3vw, 1.9rem); letter-spacing: -0.02em;
     margin-bottom: 1.1rem;
   }
-  section p { margin-bottom: 1.05rem; max-width: 44em; }
+  section p { margin-bottom: 1.05rem; max-width: 44em; overflow-wrap: anywhere; }
   section p:last-child { margin-bottom: 0; }
   .lead-in { color: var(--muted); }
   strong { font-weight: 600; }
   code {
     font-family: var(--mono); font-size: 0.85em;
     background: var(--panel); padding: 0.1em 0.35em; border-radius: 3px;
+    overflow-wrap: anywhere; word-break: break-word;
   }
 
   /* ---------- diagram plates ---------- */
   .plate {
     background: var(--panel); border-radius: 10px;
     padding: 1.75rem 1.5rem 1.25rem; margin: 2rem 0;
-    overflow-x: auto; position: relative;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    position: relative; max-width: 100%;
   }
   .plate svg { display: block; width: 100%; height: auto; min-width: 620px; }
   .plate-caption {
@@ -137,10 +151,11 @@
   }
 
   /* ---------- start checklist ---------- */
-  .start-steps { margin: 2rem 0 1.5rem; counter-reset: start-step; }
+  .start-steps { margin: 2rem 0 1.5rem; counter-reset: start-step; min-width: 0; }
   .start-step {
-    display: grid; grid-template-columns: 2.5rem 1fr; gap: 0.85rem;
+    display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: 0.85rem;
     padding: 1.1rem 0; border-top: 1px solid var(--panel-deep);
+    min-width: 0;
   }
   .start-step:last-child { border-bottom: 1px solid var(--panel-deep); }
   .start-step::before {
@@ -158,10 +173,14 @@
   .start-step p:last-child { margin-bottom: 0; }
   .start-step strong { color: var(--ink); }
   .cards {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 0.9rem; margin: 2rem 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+    gap: 0.9rem; margin: 2rem 0; min-width: 0;
   }
-  .card { background: var(--panel); border-radius: 10px; padding: 1.15rem 1.25rem; }
+  .card {
+    background: var(--panel); border-radius: 10px; padding: 1.15rem 1.25rem;
+    min-width: 0; max-width: 100%;
+  }
   .card h3 {
     font-family: var(--display); font-weight: 700; font-size: 1.05rem;
     letter-spacing: -0.015em; margin-bottom: 0.1rem;
@@ -221,8 +240,9 @@
 
   /* ---------- two-up panels ---------- */
   .duo {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 0.9rem; margin: 1.8rem 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+    gap: 0.9rem; margin: 1.8rem 0; min-width: 0;
   }
   .duo .card h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
   .duo .card p { margin-bottom: 0.6rem; }
@@ -233,15 +253,22 @@
   .console {
     background: var(--console); color: var(--console-ink);
     border-radius: 10px; padding: 1.4rem 1.5rem; margin: 1.8rem 0;
-    overflow-x: auto;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    max-width: 100%; min-width: 0;
   }
-  .console pre { font-family: var(--mono); font-size: 0.84rem; line-height: 1.65; }
+  .console pre {
+    font-family: var(--mono); font-size: 0.84rem; line-height: 1.65;
+    margin: 0; white-space: pre; tab-size: 2;
+  }
   .console .c { color: var(--console-dim); }
   .console .k { color: #e8a87c; }
   .console .f { color: #9ec7ef; }
 
   /* ---------- tables ---------- */
-  .tbl-scroll { overflow-x: auto; margin: 1.8rem 0; }
+  .tbl-scroll {
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    margin: 1.8rem 0; max-width: 100%;
+  }
   .tbl { width: 100%; border-collapse: collapse; font-size: 0.92rem; min-width: 560px; }
   .tbl th {
     font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em;
@@ -250,9 +277,8 @@
   }
   .tbl td {
     padding: 0.55rem 1rem 0.55rem 0; border-bottom: 1px solid var(--panel-deep);
-    vertical-align: top;
+    vertical-align: top; overflow-wrap: anywhere;
   }
-  .tbl td:first-child { white-space: nowrap; }
   .tbl .who { font-family: var(--mono); font-size: 0.74rem; color: var(--judge); }
   .tbl .who.learn-w { color: var(--learn); }
 
@@ -273,6 +299,86 @@
   }
   footer a { color: var(--muted); text-decoration: underline; }
   footer a:hover { color: var(--ink); }
+
+  /* ---------- mobile containment ---------- */
+  @media (max-width: 640px) {
+    .wrap, .wrap-wide { padding: 0 1rem; }
+    .hero { padding-top: 3rem; padding-bottom: 2.25rem; }
+    h1 { max-width: none; }
+    .console {
+      padding: 1.1rem 1rem;
+      margin: 1.2rem 0;
+      border-radius: 8px;
+    }
+    .console pre { font-size: 0.75rem; line-height: 1.55; }
+    .plate { padding: 1.25rem 1rem 1rem; margin: 1.4rem 0; }
+    .start-step { grid-template-columns: 2rem minmax(0, 1fr); gap: 0.65rem; }
+    .cards, .duo { grid-template-columns: 1fr; }
+
+    /* Stack tables into labeled cards — no sideways squeeze */
+    .tbl-scroll {
+      overflow: visible;
+      margin: 1.4rem 0;
+    }
+    .tbl {
+      min-width: 0;
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 0.92rem;
+    }
+    .tbl thead {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    .tbl tbody {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .tbl tr {
+      display: block;
+      background: var(--panel);
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+    }
+    .tbl td {
+      display: block;
+      width: 100%;
+      min-width: 0;
+      padding: 0.35rem 0 0.15rem;
+      border: none;
+      white-space: normal;
+    }
+    .tbl td + td {
+      border-top: 1px solid var(--panel-deep);
+      margin-top: 0.5rem;
+      padding-top: 0.55rem;
+    }
+    .tbl td::before {
+      content: attr(data-label);
+      display: block;
+      font-family: var(--mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+    .tbl td:first-child {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: -0.015em;
+      color: var(--ink);
+      padding-top: 0;
+    }
+  }
 </style>
 </head>
 <body>
@@ -284,6 +390,7 @@
       <a href="#loop">The loop</a>
       <a href="#agents">Agents</a>
       <a href="#quickstart">Start a product</a>
+      <a href="#preplan">Pre-plan</a>
       <a href="#run">A run</a>
       <a href="#modes">Modes</a>
       <a href="#artifacts">Artifacts</a>
@@ -301,11 +408,12 @@
     <p class="thesis">
       The harness turns a short product prompt into a working app by
       <strong>separating creation from judgment</strong>: one agent plans, one
-      builds, and one grades the running app with a skeptical eye — with
-      mechanical gates and an anti-slop loop so quality stays enforceable.
+      builds, one grades the running app with a skeptical eye — and a fourth
+      distills every failure into lessons, so <strong>each run starts smarter
+      than the last</strong>.
     </p>
     <p class="doc-meta">
-      <span>docs/guide.html</span>
+      <span>docs/guide/</span>
       <span>updated 2026-07-17</span>
       <span>zero dependencies</span>
     </p>
@@ -325,7 +433,7 @@
     </div>
     <div class="wrap-wide">
       <div class="plate">
-        <svg viewBox="0 0 800 220" role="img" aria-label="Diagram: Planner feeds Generator, then Pre-QA Gate, then Evaluator. A fail wire returns to the Generator.">
+        <svg viewBox="0 0 960 250" role="img" aria-label="Diagram: Planner feeds Generator, then Pre-QA Gate, then Evaluator. A fail wire returns to the Generator. Failures loop back to the Generator until pass or max rounds.">
           <defs>
             <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
               <path d="M0,0 L8,4 L0,8 z" fill="#10202e"/>
@@ -333,36 +441,63 @@
             <marker id="arr-j" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
               <path d="M0,0 L8,4 L0,8 z" fill="#2062ae"/>
             </marker>
+            <marker id="arr-l" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M0,0 L8,4 L0,8 z" fill="#d14d21"/>
+            </marker>
           </defs>
 
+          <!-- nodes -->
           <g font-family="ui-monospace, Menlo, monospace" font-size="13">
             <rect x="20" y="55" width="140" height="46" rx="8" fill="#f1f3f5" stroke="#10202e" stroke-width="1.5"/>
             <text x="90" y="83" text-anchor="middle" fill="#10202e">Planner</text>
 
-            <rect x="240" y="55" width="140" height="46" rx="8" fill="#f1f3f5" stroke="#10202e" stroke-width="1.5"/>
-            <text x="310" y="83" text-anchor="middle" fill="#10202e">Generator</text>
+            <rect x="285" y="55" width="140" height="46" rx="8" fill="#f1f3f5" stroke="#10202e" stroke-width="1.5"/>
+            <text x="355" y="83" text-anchor="middle" fill="#10202e">Generator</text>
 
-            <rect x="430" y="55" width="130" height="46" rx="23" fill="#d8dfe5" stroke="#52616e" stroke-width="1.2"/>
-            <text x="495" y="83" text-anchor="middle" fill="#10202e">Pre-QA gate</text>
+            <rect x="440" y="55" width="130" height="46" rx="23" fill="#d8dfe5" stroke="#52616e" stroke-width="1.2"/>
+            <text x="505" y="83" text-anchor="middle" fill="#10202e">Pre-QA gate</text>
 
             <rect x="610" y="55" width="140" height="46" rx="8" fill="#2062ae" stroke="#2062ae"/>
             <text x="680" y="83" text-anchor="middle" fill="#f1f3f5">Evaluator</text>
+
+            <rect x="800" y="55" width="140" height="46" rx="8" fill="#f1f3f5" stroke="#d14d21" stroke-width="1.5"/>
+            <text x="870" y="83" text-anchor="middle" fill="#d14d21">Anti-slop</text>
           </g>
 
-          <line x1="160" y1="78" x2="233" y2="78" stroke="#10202e" stroke-width="1.5" marker-end="url(#arr)"/>
-          <line x1="380" y1="78" x2="423" y2="78" stroke="#10202e" stroke-width="1.5" marker-end="url(#arr)"/>
-          <line x1="560" y1="78" x2="603" y2="78" stroke="#10202e" stroke-width="1.5" marker-end="url(#arr)"/>
+          <!-- forward wires -->
+          <line x1="160" y1="78" x2="278" y2="78" stroke="#10202e" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="425" y1="78" x2="433" y2="78" stroke="#10202e" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="570" y1="78" x2="603" y2="78" stroke="#10202e" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="750" y1="78" x2="793" y2="78" stroke="#10202e" stroke-width="1.5" stroke-dasharray="2 4" marker-end="url(#arr)"/>
 
-          <path d="M 680 101 C 680 165, 380 165, 310 106" fill="none" stroke="#2062ae" stroke-width="1.5" marker-end="url(#arr-j)"/>
-          <text x="495" y="172" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#2062ae">FAIL — fix and retest (max 3 rounds/sprint)</text>
+          <!-- fail wire: evaluator back to generator -->
+          <path d="M 680 101 C 680 165, 420 165, 358 106" fill="none" stroke="#2062ae" stroke-width="1.5" marker-end="url(#arr-j)"/>
+          <text x="520" y="172" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#2062ae">FAIL — fix and retest (max 3 rounds/sprint)</text>
 
-          <path d="M 715 55 C 715 18, 380 18, 310 50" fill="none" stroke="#52616e" stroke-width="1.2" stroke-dasharray="3 4" marker-end="url(#arr)"/>
-          <text x="512" y="14" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#52616e">PASS — next sprint</text>
+          <!-- pass wire: next sprint -->
+          <path d="M 715 55 C 715 18, 420 18, 360 50" fill="none" stroke="#52616e" stroke-width="1.2" stroke-dasharray="3 4" marker-end="url(#arr)"/>
+          <text x="537" y="14" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#52616e">PASS — next sprint</text>
+
+          <!-- learn wire: retrospector back to the start -->
+          <path d="M 870 101 C 870 225, 120 225, 92 106" fill="none" stroke="#d14d21" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arr-l)"/>
+          <text x="480" y="232" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#d14d21">bun gc:weekly — turn recurring failures into guardrails</text>
+
+          <!-- signature: signal lights travelling the circuit, then the fail wire home -->
+          <g aria-hidden="true">
+            <circle class="signal" cx="200" cy="78" r="3.5" fill="#2062ae" style="animation-delay: 0s"/>
+            <circle class="signal" cx="240" cy="78" r="3.5" fill="#2062ae" style="animation-delay: 0.6s"/>
+            <circle class="signal" cx="600" cy="78" r="3.5" fill="#2062ae" style="animation-delay: 1.2s"/>
+            <circle class="signal" cx="672" cy="122" r="3.5" fill="#2062ae" style="animation-delay: 1.8s"/>
+            <circle class="signal" cx="590" cy="153" r="3.5" fill="#2062ae" style="animation-delay: 2.4s"/>
+            <circle class="signal" cx="470" cy="157" r="3.5" fill="#2062ae" style="animation-delay: 3.0s"/>
+            <circle class="signal" cx="385" cy="128" r="3.5" fill="#2062ae" style="animation-delay: 3.6s"/>
+          </g>
         </svg>
-        <p class="plate-caption">Fig. 1 — the build circuit</p>
+        <p class="plate-caption">Fig. 1 — the build circuit and the learning return wire</p>
         <div class="legend">
           <span><i class="swatch build"></i> build</span>
           <span><i class="swatch judge"></i> judge</span>
+          <span><i class="swatch learn"></i> learn</span>
         </div>
       </div>
     </div>
@@ -376,34 +511,33 @@
       <p class="lead-in">
         Each agent runs in its own isolated context and communicates only
         through files in <code>docs/</code> — the Evaluator never sees the
-        Generator's self-justification, only what landed on disk. Override the
-        Cursor model with <code>HARNESS_MODEL</code> (default
-        <code>composer-2.5</code>).
+        Generator's self-justification, only what landed on disk. Every phase
+        defaults to <code>opus</code> — the latest-Opus alias — and any phase
+        can be overridden per run (e.g. Fable for planning).
       </p>
     </div>
     <div class="wrap-wide">
       <div class="cards">
         <div class="card">
           <h3>Planner</h3>
-          <span class="tech">Cursor agent</span>
+          <span class="tech">composer-2.5</span>
           <p>Expands your one-line prompt into a full spec, sprint plan, and
-          status tracker. With no design brief, it first proposes three design
-          directions and waits for your pick.</p>
+          status tracker. With no design brief, it defines the design language in the spec from your prompt (or follows `design/brief.md` when provided).</p>
         </div>
         <div class="card">
           <h3>Generator</h3>
-          <span class="tech">Cursor agent</span>
+          <span class="tech">composer-2.5</span>
           <p>Builds one sprint at a time against a written contract. Every
           commit must pass the pre-commit hook: sandbox, lints, secret scan.</p>
         </div>
         <div class="card">
           <h3>Evaluator</h3>
-          <span class="tech">Cursor agent</span>
+          <span class="tech">composer-2.5</span>
           <p>Starts the app and tests every acceptance criterion with
           Playwright, then grades six weighted criteria. Skeptical by
           instruction: “it mostly works” is a fail.</p>
         </div>
-      </div>
+</div>
     </div>
   </section>
 
@@ -414,8 +548,10 @@
       <h2>Starting a product</h2>
       <p class="lead-in">
         This repo is a <strong>harness template</strong>, not your app.
-        Copy it once per product, run with Cursor, and keep the first run
-        small enough that you can watch cost and scope.
+        The product the agents build lives under <code>app/</code> — harness
+        tooling stays at the repo root. Copy the template once per product,
+        use Cursor CLI, and keep the first run small enough that you can
+        watch cost and scope.
       </p>
 
       <div class="start-steps">
@@ -423,9 +559,10 @@
           <div>
             <h3>Copy the template — don’t dogfood it</h3>
             <p>
-              The generated app lands under <strong><code>app/</code></strong>.
-              Harness infrastructure stays at the repo root. Dogfooding the
-              template pollutes its history — start each product from a sibling copy:
+              The generated app lands in <code>app/</code> inside your product
+              repo — never mixed with harness files at the root. Dogfooding
+              this template pollutes its history and makes upstream updates
+              painful. Start each product from a sibling copy:
             </p>
             <div class="console">
 <pre><span class="k">cp -R</span> tri-agent-harness-cursor ../my-product
@@ -433,17 +570,19 @@
 <span class="k">bun install</span> &amp;&amp; <span class="k">bun run setup</span>
 <span class="k">cp</span> .env.example .env.local</pre>
             </div>
+            <p>
+              Later, push lessons back to the template with
+              <code>bun lessons:sync /path/to/template</code>.
+            </p>
           </div>
         </div>
 
         <div class="start-step">
           <div>
-            <h3>Use Cursor CLI</h3>
+            <h3>Cursor CLI only</h3>
             <p>
               The canonical entry point is <code>./cursor-harness.sh</code>. You need
-              the Cursor CLI installed and authenticated. Manual phase handoffs live
-              under <code>scripts/cursor-*.sh</code> with prompts in
-              <code>cursor/prompts/</code>.
+              the Cursor CLI installed and authenticated.
             </p>
           </div>
         </div>
@@ -478,8 +617,9 @@
               full autonomy.
             </p>
             <p>
-              Override the Cursor model if needed:
-              <code>HARNESS_MODEL=composer-2.5</code>.
+              Startup also pings each configured model. To run planning on
+              Fable instead of the default Opus:
+              <code>HARNESS_PLANNER_MODEL=claude-fable-5 ./cursor-harness.sh "…"</code>.
             </p>
           </div>
         </div>
@@ -490,10 +630,13 @@
             <p>
               Copy <code>docs/templates/design-brief.md</code> to
               <code>design/brief.md</code> if you already know the visual
-              direction. With an empty <code>design/</code>, the Planner writes
-              three options to <code>docs/design-options.md</code> and pauses —
-              put your pick in <code>design/selected-direction.md</code> and
-              re-run the same command.
+              direction. With an empty <code>design/</code>, the Planner defines
+              the design language in <code>docs/spec.md</code> from your prompt.
+            </p>
+            <p>
+              Bringing a full product plan from another chat? That helps —
+              see <a href="#preplan">Planning with another agent</a> for what
+              to keep vs strip before you paste it into the prompt.
             </p>
           </div>
         </div>
@@ -518,8 +661,66 @@
 
       <p>
         When something fails on setup rather than product bugs, jump to
-        <a href="#fieldnotes">Field notes</a>. Pre-commit hooks catch bad
-        commits; review agent output when something looks off.
+        <a href="#fieldnotes">Field notes</a>. Autonomy uses
+        <code>--force --approve-mcps</code> — hooks catch bad commits,
+        not bad commands.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= PRE-PLAN FROM ANOTHER AGENT ================= -->
+  <section id="preplan">
+    <div class="wrap">
+      <span class="eyebrow">Input shape</span>
+      <h2>Planning with another agent</h2>
+      <p class="lead-in">
+        The prompt you pass to <code>./cursor-harness.sh</code> (or
+        <code>/plan</code>) does not have to be a one-liner. A product plan
+        drafted in another chat or agent usually
+        <strong>helps</strong> the Planner — richer intent means fewer
+        invented requirements. It does <strong>not</strong> change the
+        harness architecture: the Planner still writes the canonical
+        <code>docs/spec.md</code> and sprint plan.
+      </p>
+
+      <div class="tbl-scroll">
+        <table class="tbl">
+          <thead>
+            <tr><th>In your pre-plan</th><th>Effect</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="In your pre-plan">Product goals, users, features, UX flows</td>
+              <td data-label="Effect">Helps — better input for the spec</td>
+            </tr>
+            <tr>
+              <td data-label="In your pre-plan">Design direction / brand rules</td>
+              <td data-label="Effect">Prefer <code>design/brief.md</code> (authoritative) over burying it in the prompt</td>
+            </tr>
+            <tr>
+              <td data-label="In your pre-plan">Non-negotiable constraints</td>
+              <td data-label="Effect">Prefer <code>design/constraints.md</code>, or say explicitly “do not expand beyond this scope”</td>
+            </tr>
+            <tr>
+              <td data-label="In your pre-plan">Stack, file layouts, “implement X with Y”</td>
+              <td data-label="Effect">Risk — Planner stays high-level; wrong implementation detail cascades to Generator</td>
+            </tr>
+            <tr>
+              <td data-label="In your pre-plan">Pre-cut sprints</td>
+              <td data-label="Effect">Hints only — Planner re-slices into the harness shape (typically 4–8 sprints; Sprint 1 = skeleton)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        <strong>Practical recipe:</strong> keep the other agent’s output as a
+        product brief, strip implementation prescriptions, park visuals in
+        <code>design/brief.md</code>, then run the harness. The Planner may
+        still ambition-expand unless you constrain it — that is intentional,
+        but easy to overshoot on cost. See
+        <a href="#quickstart">Starting a product</a> for caps like
+        <code>HARNESS_MAX_SPRINTS_PER_RUN=1</code>.
       </p>
     </div>
   </section>
@@ -548,7 +749,7 @@
           <h3>Build (sprint N)</h3>
           <p>The Generator writes the sprint contract, implements it, commits
           through the pre-commit hook, and marks the sprint “Ready for QA”.</p>
-          <span class="wire">docs/sprint-N-contract.md · app/ code</span>
+          <span class="wire">docs/sprint-N-contract.md · app/ (source, package.json, tests)</span>
         </div>
         <div class="event">
           <span class="tplus">1–5 min</span>
@@ -567,6 +768,14 @@
           sprint.</p>
           <span class="wire">docs/qa-report-sprint-N.md · sprint status updated</span>
         </div>
+        <div class="event learn-dot">
+          <span class="tplus">ongoing</span>
+          <h3>Anti-slop loop</h3>
+          <p>QA failures log to <code>.gc-cache/weekly-report.jsonl</code>.
+          Run <code>bun gc:weekly</code> to review recurring mistakes and propose
+          new harness guardrails (see CONTRIBUTING.md).</p>
+          <span class="wire">.gc-cache/ · CONTRIBUTING.md · bun lint:harness</span>
+        </div>
       </div>
       <p>
         On persistent failure the harness <strong>halts by default</strong>
@@ -581,27 +790,30 @@
   <section id="modes">
     <div class="wrap">
       <span class="eyebrow">Two ways in</span>
-      <h2>Autonomous or manual handoffs</h2>
+      <h2>Autonomous or interactive</h2>
     </div>
     <div class="wrap-wide">
       <div class="duo">
         <div class="card">
           <h3>Autonomous — <code>./cursor-harness.sh</code></h3>
           <p>The default. Each phase runs as a separate <code>cursor agent</code>
-          invocation, fully hands-off until pass, halt, or a pause you configured
+          process, fully hands-off until pass, halt, or a pause you configured
           (<code>HARNESS_PAUSE=sprint</code> asks before each sprint).</p>
-          <p>An artifact watchdog stops hung agents once phase outputs land on disk.</p>
         </div>
         <div class="card">
-          <h3>Manual — phase scripts</h3>
-          <p>Drive each phase yourself from Cursor Agent Manager:</p>
+          <h3>Interactive — manual handoffs</h3>
+          <p>Drive each phase from Cursor Agent Manager. Each script writes
+          <code>docs/cursor-handoff.md</code> so phases stay isolated.</p>
           <p><code>./scripts/cursor-plan.sh</code> ·
-          <code>./scripts/cursor-build.sh</code> ·
-          <code>./scripts/cursor-qa.sh</code></p>
-          <p>Prompts in <code>cursor/prompts/</code>; each script writes
-          <code>docs/cursor-handoff.md</code>.</p>
+          <code>cursor-build.sh</code> ·
+          <code>cursor-qa.sh</code> ·
+          <code>cursor-post-qa.sh</code></p>
         </div>
       </div>
+      <p style="margin-top: 1.5rem; max-width: 44em;">
+        Prefer the autonomous loop. Manual handoffs are the hands-on alternative
+        in the same repo — switch between them at any point.
+      </p>
     </div>
   </section>
 
@@ -620,13 +832,14 @@
             <tr><th>File</th><th>Written by</th><th>What it tells you</th></tr>
           </thead>
           <tbody>
-            <tr><td><code>docs/spec.md</code></td><td class="who">Planner</td><td>Product vision, features, design language</td></tr>
-            <tr><td><code>docs/sprint-status.md</code></td><td class="who">all phases</td><td>Source of truth for progress and resume</td></tr>
-            <tr><td><code>docs/sprint-N-contract.md</code></td><td class="who">Generator</td><td>Sprint scope, acceptance criteria, self-eval</td></tr>
-            <tr><td><code>docs/mechanical-checks-sprint-N.md</code></td><td class="who">Pre-QA gate</td><td>Lint/artifact results; FAIL blocks evaluation</td></tr>
-            <tr><td><code>docs/qa-report-sprint-N.md</code></td><td class="who">Evaluator</td><td>Verdict, scores, bugs — ends with lesson candidates</td></tr>
-            <tr><td><code>AGENTS.md</code></td><td class="who">Planner</td><td>Project context: stack, design language, status</td></tr>
-            <tr><td><code>harness/LESSONS.md</code></td><td class="who">anti-slop</td><td>Distilled lessons from QA candidates (<code>bun gc:weekly</code>)</td></tr>
+            <tr><td data-label="File"><code>docs/spec.md</code></td><td data-label="Written by" class="who">Planner</td><td data-label="What it tells you">Product vision, features, design language</td></tr>
+            <tr><td data-label="File"><code>docs/sprint-status.md</code></td><td data-label="Written by" class="who">all phases</td><td data-label="What it tells you">Source of truth for progress and resume</td></tr>
+            <tr><td data-label="File"><code>docs/sprint-N-contract.md</code></td><td data-label="Written by" class="who">Generator</td><td data-label="What it tells you">Sprint scope, acceptance criteria, self-eval</td></tr>
+            <tr><td data-label="File"><code>app/</code></td><td data-label="Written by" class="who">Generator</td><td data-label="What it tells you">Product source — <code>package.json</code>, <code>src/</code>, tests, config</td></tr>
+            <tr><td data-label="File"><code>docs/mechanical-checks-sprint-N.md</code></td><td data-label="Written by" class="who">Pre-QA gate</td><td data-label="What it tells you">Lint/artifact results; FAIL blocks evaluation</td></tr>
+            <tr><td data-label="File"><code>docs/qa-report-sprint-N.md</code></td><td data-label="Written by" class="who">Evaluator</td><td data-label="What it tells you">Verdict, scores, bugs — ends with lesson candidates</td></tr>
+            <tr><td data-label="File"><code>.gc-cache/weekly-report.jsonl</code></td><td data-label="Written by" class="who">orchestrator</td><td data-label="What it tells you">QA failure log for anti-slop review</td></tr>
+            
           </tbody>
         </table>
       </div>
@@ -641,11 +854,13 @@
   <section id="learning">
     <div class="wrap learn-band">
       <span class="eyebrow learn-eb">The return wire</span>
-      <h2>Anti-slop: how quality compounds</h2>
+      <h2>How guardrails improve over time</h2>
       <p class="lead-in">
-        QA reports end with lesson candidates. Review recurring failures with
-        the anti-slop loop (<code>bun gc:weekly</code>) and graduate repeated
-        mistakes into lint rules or persona checklists.
+        Recurring QA failures feed the anti-slop loop. After two strikes on the same
+        mistake class, propose a new lint rule via <code>CONTRIBUTING.md</code>. The
+        Claude Code sibling harness adds an automatic Retrospector; this Cursor
+        starter keeps learning manual and lightweight —
+        capped at 25 active lessons, so the prompt never bloats.
       </p>
     </div>
     <div class="wrap-wide">
@@ -688,8 +903,10 @@
     </div>
     <div class="wrap">
       <div class="console">
-<pre><span class="c"># anti-slop toolbox</span>
-<span class="k">bun gc:weekly</span>     <span class="c"># review recurring failures → guardrail proposals</span></pre>
+<pre><span class="c"># learning-loop toolbox</span>
+<span class="k">bun lessons:validate</span>   <span class="c"># ledger + LESSONS.md consistency (also runs in pre-commit)</span>
+<span class="k">bun lessons:render</span>     <span class="c"># regenerate LESSONS.md from the ledger</span>
+<span class="k">bun lessons:sync</span> <span class="f">~/path/to/template-repo</span>   <span class="c"># merge a product clone's learning home</span>
       </div>
       <p>
         Guardrail proposals are the only human gate: review the draft in
@@ -717,48 +934,50 @@
           </thead>
           <tbody>
             <tr>
-              <td>"WARNING: guardrails are OFF" at startup</td>
-              <td>Not a git repository — hooks, secret scan, and lint gate can't install</td>
-              <td><code>git init &amp;&amp; bun install &amp;&amp; bun run setup</code></td>
+              <td data-label="Symptom">"WARNING: guardrails are OFF" at startup</td>
+              <td data-label="Cause">Not a git repository — hooks, secret scan, and lint gate can't install</td>
+              <td data-label="Fix"><code>git init &amp;&amp; bun install &amp;&amp; bun run setup</code></td>
             </tr>
             <tr>
-              <td>Preflight: Cursor CLI missing</td>
-              <td><code>cursor</code> not on PATH or not authenticated</td>
-              <td>Install the Cursor CLI; run <code>cursor agent</code> once to verify</td>
+              <td data-label="Symptom">Preflight: "model … did not respond"</td>
+              <td data-label="Cause">Account lacks the configured model, or <code>cursor</code> isn't authenticated</td>
+              <td data-label="Fix">Log in, or override: <code>HARNESS_MODEL=opus</code> (or per-phase <code>HARNESS_*_MODEL</code>)</td>
             </tr>
             <tr>
-              <td>Gate fails: "No application product found by sprint 2"</td>
-              <td>Generator scaffolded outside <code>app/</code></td>
-              <td>Move the product to <code>app/package.json</code> and <code>app/src/</code> — see <code>app/README.md</code></td>
+              <td data-label="Symptom">Gate fails: "No application source found by sprint 2"</td>
+              <td data-label="Cause">The Generator scaffolded outside <code>app/</code> (e.g. at repo root or in <code>src/</code>)</td>
+              <td data-label="Fix">Move the app into <code>app/package.json</code> and <code>app/src/</code></td>
             </tr>
             <tr>
-              <td>QA round 1 fails on setup, not bugs</td>
-              <td>Playwright browsers missing, or the dev-server port is taken</td>
-              <td><code>npx playwright install</code>; free the port before re-running</td>
+              <td data-label="Symptom">QA round 1 fails on setup, not bugs</td>
+              <td data-label="Cause">Playwright browsers missing, or the dev-server port is taken</td>
+              <td data-label="Fix"><code>npx playwright install</code>; free the port before re-running</td>
             </tr>
             <tr>
-              <td>Loop stops: "unrecognized status" in a sprint row</td>
-              <td>A hand-edited (or agent-mangled) <code>docs/sprint-status.md</code> status cell</td>
-              <td>Use exactly: <code>Not started</code>, <code>In progress</code>, <code>Ready for QA</code>, <code>Pass</code>, <code>Fail</code>, <code>Skipped</code></td>
+              <td data-label="Symptom">Loop stops: "unrecognized status" in a sprint row</td>
+              <td data-label="Cause">A hand-edited (or agent-mangled) <code>docs/sprint-status.md</code> status cell</td>
+              <td data-label="Fix">Use exactly: <code>Not started</code>, <code>In progress</code>, <code>Ready for QA</code>, <code>Pass</code>, <code>Fail</code>, <code>Skipped</code></td>
             </tr>
             <tr>
-              <td>Secret scan feels thin</td>
-              <td>gitleaks not installed — fallback is a 3-pattern regex</td>
-              <td><code>brew install gitleaks</code></td>
+              <td data-label="Symptom">Secret scan feels thin</td>
+              <td data-label="Cause">gitleaks not installed — fallback is a 3-pattern regex</td>
+              <td data-label="Fix"><code>brew install gitleaks</code></td>
             </tr>
             <tr>
-              <td>Run costs more than expected</td>
-              <td>Fully autonomous default after the first run; ambitious plans mean many sprints × QA rounds</td>
-              <td>Scope the prompt; <code>HARNESS_MAX_SPRINTS_PER_RUN=1</code> or <code>HARNESS_PAUSE=sprint</code></td>
+              <td data-label="Symptom">Run costs more than expected</td>
+              <td data-label="Cause">Fully autonomous default after the first run; ambitious plans mean many sprints × QA rounds</td>
+              <td data-label="Fix">Scope the prompt; <code>HARNESS_MAX_SPRINTS_PER_RUN=1</code> or <code>HARNESS_PAUSE=sprint</code></td>
             </tr>
           </tbody>
         </table>
       </div>
       <p>
-        Two structural facts worth internalizing: the generated app lives under
-        <code>app/</code> (see <a href="#quickstart">Starting a product</a>),
-        and agents run with elevated permissions — the sandbox rules are
-        instructions to the agents, not OS-level enforcement.
+        Two structural facts worth internalizing again: the generated app lives
+        under <code>app/</code> (see <a href="#quickstart">Starting a product</a>
+        for the sibling-copy ritual), and agents run with
+        <code>--force --approve-mcps</code> — the sandbox rules are
+        instructions to the agents, not OS-level enforcement. The hooks catch
+        bad commits, not bad commands.
       </p>
     </div>
   </section>
@@ -779,13 +998,14 @@
             <tr><th>Variable</th><th>Default</th><th>What it does</th></tr>
           </thead>
           <tbody>
-            <tr><td><code>HARNESS_PAUSE</code></td><td><code>off</code> · <code>sprint</code> on a fresh project</td><td><code>sprint</code> asks before each sprint; <code>phase</code> before every agent; <code>design</code> after design-scout</td></tr>
-            <tr><td><code>HARNESS_MAX_SPRINTS_PER_RUN</code></td><td>unlimited</td><td>Stop cleanly after N sprints; re-run to resume</td></tr>
-            <tr><td><code>HARNESS_ON_MAX_ROUNDS</code></td><td><code>halt</code></td><td><code>advance</code> marks a stuck sprint Skipped and moves on</td></tr>
-            <tr><td><code>HARNESS_MODEL</code></td><td><code>composer-2.5</code></td><td>Cursor model for all phases</td></tr>
-            <tr><td><code>HARNESS_AGENT_WATCHDOG</code></td><td><code>1</code></td><td>Stop hung <code>cursor agent</code> when artifacts land</td></tr>
-            <tr><td><code>HARNESS_YES</code></td><td><code>0</code></td><td><code>1</code> skips all pause prompts (fully autonomous)</td></tr>
-            <tr><td><code>HARNESS_USAGE_CHECK</code></td><td><code>0</code></td><td>Run a budget probe at sprint boundaries</td></tr>
+            <tr><td data-label="Variable"><code>HARNESS_PAUSE</code></td><td data-label="Default"><code>off</code> · <code>sprint</code> on a fresh project</td><td data-label="What it does"><code>sprint</code> asks before each sprint; <code>phase</code> before every agent</td></tr>
+            <tr><td data-label="Variable"><code>HARNESS_PREFLIGHT</code></td><td data-label="Default"><code>on</code></td><td data-label="What it does"><code>off</code> skips the startup model ping</td></tr>
+            <tr><td data-label="Variable"><code>HARNESS_MAX_SPRINTS_PER_RUN</code></td><td data-label="Default">unlimited</td><td data-label="What it does">Stop cleanly after N sprints; re-run to resume</td></tr>
+            <tr><td data-label="Variable"><code>HARNESS_ON_MAX_ROUNDS</code></td><td data-label="Default"><code>halt</code></td><td data-label="What it does"><code>advance</code> marks a stuck sprint Skipped and moves on</td></tr>
+            <tr><td data-label="Variable"><code>HARNESS_MODEL</code></td><td data-label="Default">per-phase</td><td data-label="What it does">Force one model for every phase</td></tr>
+            <tr><td data-label="Variable"><code>HARNESS_MODEL</code></td><td data-label="Default"><code>composer-2.5</code></td><td data-label="What it does">Cursor model for all phases</td></tr>
+            <tr><td data-label="Variable"><code>HARNESS_YES</code></td><td data-label="Default"><code>0</code></td><td data-label="What it does"><code>1</code> skips all pause prompts (fully autonomous)</td></tr>
+            <tr><td data-label="Variable"><code>HARNESS_USAGE_CHECK</code></td><td data-label="Default"><code>0</code></td><td data-label="What it does">Run a budget probe at sprint boundaries</td></tr>
           </tbody>
         </table>
       </div>
@@ -796,6 +1016,8 @@
     <div class="wrap">
       <p>
         Deeper reading: <a href="../README.md">README</a> ·
+        <a href="../CHEATSHEET.md">cheat sheet</a> ·
+        <a href="../examples/README.md">example artifacts</a> ·
         <a href="runtime-contract.md">runtime contract</a> ·
         <a href="../harness/AGENT-INSTRUCTIONS.md">agent instructions</a> ·
         <a href="../harness/LESSONS.md">current lessons</a>
